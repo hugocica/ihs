@@ -24,7 +24,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ihs.medicalapp"
+    },
+    "android": {
+      "package": "com.ihs.medicalapp"
     }
   }
 }
