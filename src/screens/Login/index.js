@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
   StyleSheet,
   TouchableOpacity,
   View,
   Image,
-  Text
+  Text,
+  ActivityIndicator
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
 export default function App({ navigation }) {
+  const [isLoading, setIsLoading] = useState(false)
+
   const goToNextPage = () => {
+    setIsLoading(true)
     return navigation.navigate('PacienteView')
   }
 
@@ -25,7 +29,11 @@ export default function App({ navigation }) {
         <Text style={styles.forgotText}>Esqueceu sua senha?</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.buttonEntrar} onPress={() => goToNextPage()}>
-        <Text style={styles.buttonEntrarText}>Entrar</Text>
+        {!isLoading ? (
+          <Text style={styles.buttonEntrarText}>Entrar</Text>
+        ) : (
+          <ActivityIndicator animating size="large" color="#1C71B9" />
+        )}
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );
@@ -80,7 +88,7 @@ const styles = StyleSheet.create({
   },
   buttonEntrarText: {
     fontWeight: 'bold',
-    color: '#237AE3',
+    color: '#1C71B9',
     fontSize: 16
   }
 });

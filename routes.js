@@ -9,6 +9,14 @@ import PacienteMedidasScreen from './src/screens/PacientView/Medidas'
 import PacienteSintomaScreen from './src/screens/PacientView/Sintoma'
 import PacienteContatoScreen from './src/screens/PacientView/Contato'
 
+const headerStyle = {
+  headerStyle: {
+    backgroundColor: '#1C71B9',
+    elevation: 0
+  },
+  headerTintColor: '#fff',
+}
+
 const PacienteStack = createStackNavigator({
   Home: {
     screen: PacienteScreen,
@@ -20,7 +28,7 @@ const PacienteStack = createStackNavigator({
   Agenda: {
     screen: PacienteAgendaScreen,
     navigationOptions: ({ navigation }) => ({
-      title: 'Agenda'
+      title: 'Agenda',
     })
   },
   Prescricao: {
@@ -47,6 +55,10 @@ const PacienteStack = createStackNavigator({
       title: 'Contato',
     })
   }
+}, {
+  defaultNavigationOptions: () => ({
+    ...headerStyle
+  })
 })
 
 // const ProfessionalStack = createStackNavigator({

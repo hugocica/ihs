@@ -1,36 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
-import ScheduleList from '../../components/ScheduleList'
-import RatingModal from '../../components/RatingModal'
 
 const MedicSchedule = ({ navigation }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const dataExtendida = 'Hoje, 24 de Setembro de 2019'
-
-  const visits = [
-      {
-        id: '1',
-        startDate: '08:00',
-        professional: {
-          name: 'Dr. Queenie Lusher'
-        }
-      },
-      {
-        id: '2',
-        startDate: '15:00',
-        professional: {
-          name: 'Dr. Queenie Lusher'
-        }
-      },
-      {
-        id: '3',
-        startDate: '18:00',
-        professional: {
-          name: 'Dr. Queenie Lusher'
-        }
-      }
-  ];
-
   const navigateTo = path => {
     navigation.navigate(path)
   }
