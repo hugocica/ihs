@@ -9,13 +9,54 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import axios from 'axios'
+import queryString from 'query-string'
+import apiURL from '../../api/config'
+import API from '../../api'
 
 export default function App({ navigation }) {
   const [isLoading, setIsLoading] = useState(false)
+  const [cpf, setCPF] = useState('')
+  const [password, setPassword] = useState('')
 
-  const goToNextPage = () => {
+  const loginAction = () => {
     setIsLoading(true)
-    return navigation.navigate('PacienteView')
+    
+    axios
+      .post(`${apiURL.API_URL}/authentications`, {
+        authentication: {
+          // cpf: "54579827008",
+          // password: "ec949xgo"
+          cpf,
+          password
+        }
+      })
+      .then(res => {
+        API.interceptors.request.use(
+          config => {
+            const newConfig = {
+              ...config,
+              headers: {
+                access_token: res.data.authentication.access_token,
+                'Content-Type': 'application/json'
+              }
+            }
+
+            return newConfig
+          },
+          error => Promise.reject(error)
+        );
+
+        if (res.data.authentication.type === 'Patient') {
+          navigation.navigate('PacienteView')
+        } else {
+          navigation.navigate('PacienteView')
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        setIsLoading(false)
+      })
   }
 
   return (
@@ -23,12 +64,22 @@ export default function App({ navigation }) {
       <View style={styles.imgWrapper}>
         <Image style={styles.imgLogo} source={require('../../../assets/img/ihs-logo-vazado.png')} />
       </View>
-      <TextInput style={styles.textInput} keyboardType="numeric" placeholder="CPF" />
-      <TextInput style={styles.textInput} secureTextEntry placeholder="Senha" />
+      <TextInput
+        style={styles.textInput}
+        keyboardType="numeric"
+        placeholder="CPF"
+        onChangeText={text => setCPF(text)}
+      />
+      <TextInput
+        style={styles.textInput}
+        secureTextEntry
+        placeholder="Senha"
+        onChangeText={text => setPassword(text)}
+      />
       <TouchableOpacity style={styles.forgotTextWrapper}>
         <Text style={styles.forgotText}>Esqueceu sua senha?</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonEntrar} onPress={() => goToNextPage()}>
+      <TouchableOpacity style={styles.buttonEntrar} onPress={() => loginAction()} disabled={isLoading}>
         {!isLoading ? (
           <Text style={styles.buttonEntrarText}>Entrar</Text>
         ) : (
@@ -67,7 +118,8 @@ const styles = StyleSheet.create({
     width: '100%',
     marginVertical: 10,
     paddingVertical: 8,
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
+    color: '#fff'
   },
   forgotTextWrapper: {
 

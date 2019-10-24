@@ -1,7 +1,37 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native'
 
 const MedicSchedule = () => {
+  const [enviado, setEnviado] = useState(false)
+  const [sending, setSending] = useState(false)
+
+  const sendMedidas = () => {
+    setEnviado(true)
+
+    // setTimeout(() => {
+    //   setSending(false)
+    //   setEnviado(true)
+    // }, 4000)
+  }
+
+  if (sending) {
+    return (
+      <View style={styles.container}>
+        <View style={{ flex: 1, width: '100%' }}>
+          <ActivityIndicator animating size="size" color="#fff" />
+        </View>
+      </View>
+    )
+  }
+
+  if (enviado) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.headerText}>Medidas enviadas com sucesso</Text>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       <View style={{ flex: 1, width: '100%' }}>
@@ -48,7 +78,7 @@ const MedicSchedule = () => {
       </View>
 
       <View style={{ width: '100%' }}>
-        <TouchableOpacity style={styles.mainButtons}>
+        <TouchableOpacity style={styles.mainButtons} onPress={() => sendMedidas()}>
           <Text style={styles.mainButtonsText}>Enviar</Text>
         </TouchableOpacity>
       </View>

@@ -17,9 +17,9 @@ const MedicSchedule = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigateTo('Agenda')} style={styles.menuButtons}>
           <Text style={styles.menuButtonsText}>Agenda</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigateTo('Prescricao')} style={styles.menuButtons}>
+        {/* <TouchableOpacity onPress={() => navigateTo('Prescricao')} style={styles.menuButtons}>
           <Text style={styles.menuButtonsText}>Prescrição</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity onPress={() => navigateTo('Medidas')} style={styles.menuButtons}>
           <Text style={styles.menuButtonsText}>Nova Medida</Text>
         </TouchableOpacity>

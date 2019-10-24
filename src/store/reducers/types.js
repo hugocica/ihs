@@ -1,0 +1,1 @@
+export const GET_AUTH = 'auth/GET_AUTHENTICATION'

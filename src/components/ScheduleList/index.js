@@ -1,18 +1,42 @@
 import React from 'react'
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
 
 const List = props => {
-  const { schedule, modalOpen, setModalOpen } = props;
+  const { schedule, modalOpen, setModalOpen, isLoading } = props;
 
   const renderItem = itemData => {
-    const { startDate, professional, patient, checked } = itemData.item;
+    // const { startDate, professional, patient, checked } = itemData.item;
+    const checked = false
     const applyStyle = checked ? [styles.listItemText, styles.risked] : styles.listItemText;
+    const todayDate = new Date()
+    const startDate = new Date(itemData.item.visit.startDate)
+    const appointmentDate = (startDate) ? `${startDate.getHours()}:${startDate.getMinutes()}` : ''
+
+    if (startDate !== todayDate) {
+      return null
+    }
 
     return (
       <View style={styles.listItemWrapper}>
         <TouchableOpacity style={applyStyle} onPress={() => setModalOpen(!modalOpen)}>
-        <Text style={applyStyle}>{startDate} | {(professional || patient).name}</Text>
+        <Text style={applyStyle}>{`${appointmentDate} | ` || ''}{itemData.item.visit.professional.name}</Text>
         </TouchableOpacity>
+      </View>
+    )
+  }
+
+  const renderEmpty = () => {
+    return (
+      <View style={styles.listItemWrapper}>
+        <Text>Não há nada na sua agenda para hoje</Text>
+      </View>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.listWrapper}>
+        <ActivityIndicator animating size="large" color="#fff" />
       </View>
     )
   }
@@ -23,6 +47,7 @@ const List = props => {
         keyExtractor={item => item.id} 
         data={schedule} 
         renderItem={renderItem} 
+        ListEmptyComponent={renderEmpty}
       />
     </View>
   )

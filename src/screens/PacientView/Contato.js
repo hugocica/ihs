@@ -1,14 +1,44 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View, TouchableOpacity, TextInput, Text } from 'react-native'
 
 const MedicSchedule = () => {
+  const [enviado, setEnviado] = useState(false)
+  const [sending, setSending] = useState(false)
+
+  const sendContato = () => {
+    setEnviado(true)
+
+    // setTimeout(() => {
+    //   setSending(false)
+    //   setEnviado(true)
+    // }, 4000)
+  }
+
+  if (sending) {
+    return (
+      <View style={styles.container}>
+        <View style={{ flex: 1, width: '100%' }}>
+          <ActivityIndicator animating size="size" color="#fff" />
+        </View>
+      </View>
+    )
+  }
+
+  if (enviado) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.headerText}>Mensagem enviada com sucesso</Text>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       <TextInput style={styles.input} placeholder="Nome" />
       <TextInput style={styles.input} placeholder="E-mail" keyboardType="email-address" />
       <TextInput style={styles.input} multiline numberOfLines={6} placeholder="Descreva o motivo do contato" />
 
-      <TouchableOpacity style={styles.mainButtons}>
+      <TouchableOpacity style={styles.mainButtons} onPress={sendContato}>
         <Text style={styles.mainButtonsText}>Enviar</Text>
       </TouchableOpacity>
     </View>
@@ -46,7 +76,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#1C71B9',
     fontSize: 16
-  }
+  },
+  headerText: {
+    color: '#fff',
+    fontSize: 16
+  },
 });
 
 export default MedicSchedule;
